@@ -1,8 +1,10 @@
 'use strict';
 
+const TABLE_NAME = 'users'
+
 module.exports = {
   up: function (queryInterface, Sequelize) {
-    return queryInterface.createTable('users', {
+    return queryInterface.createTable(TABLE_NAME, {
       id: { type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false },
       firstName: { type: Sequelize.STRING },
       lastName: { type: Sequelize.STRING },
@@ -12,6 +14,6 @@ module.exports = {
   },
 
   down: function (queryInterface, Sequelize) {
-    return queryInterface.dropTable('users');
+    return queryInterface.dropTable(TABLE_NAME);
   }
 };

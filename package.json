@@ -17,7 +17,7 @@
     "sequelize": "^3.30.2"
   },
   "scripts": {
-    "start": "node src/app.js"
+    "start": "nodemon -w src src/app.js"
   },
   "devDependencies": {
     "nodemon": "^1.11.0",
