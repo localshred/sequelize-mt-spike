@@ -7,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
-          notNull: true,
           notEmpty: true,
         },
         references: {
@@ -17,17 +16,17 @@ module.exports = (sequelize, DataTypes) => {
       },
       label: {
         type: DataTypes.STRING,
+        allowNull: false,
         validate: {
-          notNull: true,
           notEmpty: true,
         },
       },
       accountType: {
         type: DataTypes.ENUM,
         values: ACCOUNT_TYPES,
+        allowNull: false,
         validate: {
-          notNull: true,
-          isIn: ACCOUNT_TYPES,
+          isIn: [ACCOUNT_TYPES],
         },
       },
     },
