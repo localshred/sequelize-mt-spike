@@ -1,0 +1,26 @@
+{
+  "name": "sequelize-mt-spike",
+  "version": "1.0.0",
+  "description": "Spike on using sequelize with express in a MT context",
+  "main": "src/app.js",
+  "repository": "https://github.com/localshred/sequelize-mt-spike",
+  "author": "BJ Neilsen",
+  "license": "WTFPL",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "config": "^1.25.1",
+    "express": "^4.15.2",
+    "flauta": "^0.1.1",
+    "mysql": "^2.13.0",
+    "ramda": "^0.23.0",
+    "react": "^15.4.2",
+    "sequelize": "^3.30.2"
+  },
+  "scripts": {
+    "start": "node src/app.js"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "sequelize-cli": "^2.6.0"
+  }
+}
