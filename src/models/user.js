@@ -1,5 +1,5 @@
-module.exports = (sequelize, DataTypes) =>
-  sequelize.define('User',
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('User',
    {
      firstName: { type: DataTypes.STRING },
      lastName: { type: DataTypes.STRING },
@@ -9,3 +9,9 @@ module.exports = (sequelize, DataTypes) =>
    }
   )
 
+  User.loadAssociations = (models) => {
+    models.User.hasMany(models.Account)
+  }
+
+  return User
+}

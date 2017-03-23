@@ -6,34 +6,36 @@ const models = {
   user: '../models/user'
 }
 
-const synchronizedTenantDbs = {}
-
-const db = (req, res, next) => {
-  console.log('[DB MIDDLEWARE START]')
-  const tenant = R.pathOr('default', ['query', 'tenant'], req)
-  console.log({ tenant })
+const loadTenantModels = R.memoize((tenant) => {
   const sequelize = dbConnect(tenant)
 
-  res.locals.tenant = tenant
-  res.locals.db = sequelize
+  // Import all models
   R.pipe(
     R.values,
     R.map((relativePath) => path.join(__dirname, relativePath)),
     R.forEach(R.bind(sequelize.import, sequelize))
   )(models)
 
+  // Load model associations
+  R.forEach(
+    (model) => model.loadAssociations(),
+    sequelize.models
+  )
+
+  return sequelize
+})
+
+const db = (req, res, next) => {
+  console.log('===================')
+  const tenant = R.pathOr('default', ['query', 'tenant'], req)
+  const sequelize = loadTenantModels(tenant)
+
+  res.locals.tenant = tenant
+  res.locals.db = sequelize
   console.log({ models: res.locals.db.models })
 
-  if (!R.has(tenant, synchronizedTenantDbs)) {
-    console.log('synchronizing connection')
-    res.locals.db.sync()
-    synchronizedTenantDbs[tenant] = true
-  } else {
-    console.log('skipping connection synchronize')
-  }
-
-  console.log('[DB MIDDLEWARE END]')
   next()
+  console.log('^^^^^^^^^^^^^^^^^^^^^^^^^')
 }
 
 module.exports = db
