@@ -58,7 +58,6 @@ const update = (req, res, next) => {
   return User
     .update(params, { where: { id: req.params.id }, limit: 1 })
     .then(([updatedCount]) => {
-      console.log({ updatedCount })
       if (updatedCount === 1) {
         return User
           .findOne({ where: { id: req.params.id } })

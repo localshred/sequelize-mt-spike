@@ -2,25 +2,25 @@ const dbConnect = require('../db')
 const path = require('path')
 const R = require('ramda')
 
-const models = {
-  user: '../models/user'
-}
+const modelNames = [
+  'account',
+  'user',
+]
 
 const loadTenantModels = R.memoize((tenant) => {
   const sequelize = dbConnect(tenant)
 
   // Import all models
   R.pipe(
-    R.values,
-    R.map((relativePath) => path.join(__dirname, relativePath)),
+    R.map((modelName) => path.join(__dirname, '../models', modelName)),
     R.forEach(R.bind(sequelize.import, sequelize))
-  )(models)
+  )(modelNames)
 
   // Load model associations
-  R.forEach(
-    (model) => model.loadAssociations(),
-    sequelize.models
-  )
+  R.pipe(
+    R.values,
+    R.forEach((model) => model.loadAssociations(sequelize.models))
+  )(sequelize.models)
 
   return sequelize
 })
