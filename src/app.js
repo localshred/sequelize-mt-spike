@@ -7,7 +7,10 @@ const usersController = require('./controllers/users')
 
 const router = express.Router()
 router.get('/users', usersController.index)
+router.get('/users/:id', usersController.show)
 router.post('/users', usersController.create)
+router.patch('/users/:id', usersController.update)
+router.delete('/users/:id', usersController.destroy)
 router.get('/', homeController.root)
 
 const app = express()
