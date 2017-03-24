@@ -8,8 +8,8 @@ const dbName = (tenant) => `enrollment_tenant_${tenant}_${ENV}`
 module.exports = R.memoize(
   R.pipe(
     dbName,
-    (database) => new Sequelize(
-      database,
+    R.construct(Sequelize)(
+      R.__,
       config.db.username,
       config.db.password,
       {
@@ -18,7 +18,7 @@ module.exports = R.memoize(
         pool: {
           max: 5,
           min: 0,
-          idle: 10000
+          idle: 10000,
         },
       }
     )
